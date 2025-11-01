@@ -3,726 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pink Memories - Kenangan Kita</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Pengiriman Cepat - Jasa Pengiriman Terpercaya</title>
     <style>
-        :root {
-            --primary-pink: #ff69b4;
-            --light-pink: #ffb6c1;
-            --dark-pink: #db7093;
-            --white: #ffffff;
-            --light-gray: #f5f5f5;
-            --medium-gray: #e0e0e0;
-            --dark-gray: #333333;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--light-pink);
-            color: var(--dark-gray);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Login Page Styles */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, var(--light-pink), var(--primary-pink));
-        }
-
-        .login-form {
-            background-color: var(--white);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .login-form h1 {
-            color: var(--primary-pink);
-            margin-bottom: 1.5rem;
-        }
-
-        .login-form input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid var(--medium-gray);
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .login-form button {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary-pink);
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .login-form button:hover {
-            background-color: var(--dark-pink);
-        }
-
-        /* Main App Styles */
-        .app-container {
-            display: none;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        /* Header Styles */
-        .header {
-            background-color: var(--primary-pink);
-            color: var(--white);
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow);
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .nav-icons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .nav-icons i {
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            background-color: var(--white);
-            border-right: 1px solid var(--medium-gray);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar-menu li {
-            padding: 1rem;
-            border-bottom: 1px solid var(--medium-gray);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .sidebar-menu li:hover {
-            background-color: var(--light-pink);
-        }
-
-        .sidebar-menu li.active {
-            background-color: var(--light-pink);
-            color: var(--primary-pink);
-            font-weight: bold;
-        }
-
-        /* Content Area Styles */
-        .content-area {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            background-color: var(--light-gray);
-        }
-
-        .page {
-            display: none;
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            height: 100%;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* Home Page Styles */
-        .welcome-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .welcome-section h1 {
-            color: var(--primary-pink);
-            margin-bottom: 1rem;
-        }
-
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .memory-card {
-            background-color: var(--light-pink);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
-        }
-
-        .memory-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .memory-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .memory-card .caption {
-            padding: 10px;
-            font-size: 0.9rem;
-        }
-
-        /* Chat Page Styles */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .chat-header {
-            background-color: var(--primary-pink);
-            color: var(--white);
-            padding: 1rem;
-            border-radius: 10px 10px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            background-color: var(--light-gray);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .message {
-            max-width: 70%;
-            padding: 10px 15px;
-            border-radius: 18px;
-            position: relative;
-        }
-
-        .message.sent {
-            align-self: flex-end;
-            background-color: var(--primary-pink);
-            color: var(--white);
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.received {
-            align-self: flex-start;
-            background-color: var(--white);
-            color: var(--dark-gray);
-            border-bottom-left-radius: 5px;
-            box-shadow: var(--shadow);
-        }
-
-        .message-time {
-            font-size: 0.7rem;
-            text-align: right;
-            margin-top: 5px;
-            opacity: 0.7;
-        }
-
-        .chat-input {
-            display: flex;
-            padding: 1rem;
-            background-color: var(--white);
-            border-top: 1px solid var(--medium-gray);
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid var(--medium-gray);
-            border-radius: 24px;
-            margin-right: 10px;
-        }
-
-        .chat-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-actions i {
-            font-size: 1.2rem;
-            color: var(--primary-pink);
-            cursor: pointer;
-        }
-
-        /* Photos Page Styles */
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .photo-item {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
-        }
-
-        .photo-item:hover {
-            transform: scale(1.05);
-        }
-
-        .photo-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        /* Music Page Styles */
-        .song-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .song-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: var(--light-pink);
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
-
-        .song-info {
-            flex: 1;
-        }
-
-        .song-info h3 {
-            margin-bottom: 5px;
-        }
-
-        .song-info p {
-            font-size: 0.9rem;
-            color: var(--dark-gray);
-        }
-
-        .play-btn {
-            background-color: var(--primary-pink);
-            color: var(--white);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        /* Responsive Styles */
+        /* CSS Reset dan Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; background: #f4f4f4; transition: background 0.3s; }
+        body.dark { background: #222; color: #ddd; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header dan Navigasi */
+        header { background: #007bff; color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; }
+        nav li { margin: 0 1rem; }
+        nav a { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 5px; transition: background 0.3s; }
+        nav a:hover { background: rgba(255,255,255,0.2); }
+        .theme-toggle { position: absolute; right: 20px; top: 15px; background: none; border: 1px solid white; color: white; padding: 0.5rem; cursor: pointer; border-radius: 5px; }
+        
+        /* Hero Section */
+        .hero { background: linear-gradient(to right, #007bff, #0056b3); color: white; text-align: center; padding: 150px 0 100px; margin-top: 80px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .btn { display: inline-block; background: #28a745; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .btn:hover { background: #218838; }
+        
+        /* Sections */
+        section { padding: 60px 0; }
+        .services { background: white; }
+        .services.dark { background: #333; }
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .service-card { background: #f8f9fa; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .service-card:hover { transform: translateY(-5px); }
+        .service-card.dark { background: #444; }
+        
+        /* Kalkulator Ongkir */
+        .calculator { background: #e9ecef; text-align: center; }
+        .calculator.dark { background: #555; }
+        form { max-width: 400px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem; }
+        input, select, button { padding: 0.75rem; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+        input:focus, select:focus { outline: none; border-color: #007bff; }
+        #result { margin-top: 1rem; font-size: 1.5rem; font-weight: bold; color: #28a745; }
+        #result.error { color: #dc3545; }
+        
+        /* Tracking Resi - Baru */
+        .tracking { background: #f8f9fa; text-align: center; }
+        .tracking.dark { background: #444; }
+        #trackingForm { max-width: 400px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem; }
+        #trackingResult { margin-top: 2rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .tracking-item { background: white; padding: 1rem; margin: 0.5rem 0; border-radius: 5px; border-left: 4px solid #007bff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tracking-item.dark { background: #555; }
+        .tracking-status { font-weight: bold; color: #28a745; }
+        .tracking-date { font-size: 0.9rem; color: #666; }
+        .tracking-date.dark { color: #ccc; }
+        #trackingResult.error { color: #dc3545; text-align: center; }
+        
+        /* Kontak */
+        .contact { background: white; }
+        .contact.dark { background: #333; }
+        .contact form { max-width: 600px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem; }
+        .contact input, .contact textarea { padding: 0.75rem; border: 1px solid #ccc; border-radius: 5px; }
+        
+        /* Footer */
+        footer { background: #333; color: white; text-align: center; padding: 2rem 0; }
+        footer.dark { background: #111; }
+        
+        /* Responsif */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 70px;
-            }
-
-            .sidebar-menu li span {
-                display: none;
-            }
-
-            .memory-grid, .photo-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-
-            .message {
-                max-width: 85%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .sidebar {
-                display: none;
-            }
-
-            .memory-grid, .photo-gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .hero h1 { font-size: 2rem; }
+            nav ul { flex-direction: column; }
+            nav li { margin: 0.5rem 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Login Page -->
-    <div class="login-container" id="loginPage">
-        <div class="login-form">
-            <h1>Pink Memories</h1>
-            <p>Masuk untuk melihat kenangan indah kita</p>
-            <input type="text" id="username" placeholder="Nama pengguna">
-            <input type="password" id="password" placeholder="Kata sandi">
-            <button id="loginBtn">Masuk</button>
-            <p style="margin-top: 1rem; font-size: 0.9rem;">Gunakan username: <strong>pacar</strong> dan password: <strong>cinta</strong></p>
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#services">Layanan</a></li>
+                <li><a href="#calculator">Kalkulator Ongkir</a></li>
+                <li><a href="#tracking">Tracking Resi</a></li> <!-- Baru: Link Tracking -->
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Selamat Datang di Pengiriman Cepat</h1>
+            <p>Layanan pengiriman barang terpercaya, cepat, dan aman ke seluruh Indonesia.</p>
+            <a href="#calculator" class="btn">Hitung Ongkir Sekarang</a>
         </div>
-    </div>
+    </section>
 
-    <!-- Main App -->
-    <div class="app-container" id="appContainer">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">Pink Memories</div>
-            <div class="nav-icons">
-                <i class="fas fa-search"></i>
-                <i class="fas fa-ellipsis-v"></i>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <ul class="sidebar-menu">
-                    <li class="active" data-page="home"><i class="fas fa-home"></i> <span>Beranda</span></li>
-                    <li data-page="photos"><i class="fas fa-images"></i> <span>Foto Kenangan</span></li>
-                    <li data-page="chat"><i class="fas fa-comments"></i> <span>Pesan Romantis</span></li>
-                    <li data-page="favoriteChat"><i class="fas fa-heart"></i> <span>Pesan Favorit</span></li>
-                    <li data-page="music"><i class="fas fa-music"></i> <span>Lagu Kita</span></li>
-                </ul>
-            </div>
-
-            <!-- Content Area -->
-            <div class="content-area">
-                <!-- Home Page -->
-                <div class="page active" id="home">
-                    <div class="welcome-section">
-                        <h1>Selamat Datang di Pink Memories</h1>
-                        <p>Tempat menyimpan semua kenangan indah kita</p>
-                    </div>
-                    <h2>Kenangan Terbaru</h2>
-                    <div class="memory-grid">
-                        <div class="memory-card">
-                            <img src="https://source.unsplash.com/random/300x200/?couple,romantic" alt="Memory 1">
-                            <div class="caption">Hari pertama kita bertemu</div>
-                        </div>
-                        <div class="memory-card">
-                            <img src="https://source.unsplash.com/random/300x200/?beach,couple" alt="Memory 2">
-                            <div class="caption">Liburan di pantai</div>
-                        </div>
-                        <div class="memory-card">
-                            <img src="https://source.unsplash.com/random/300x200/?dinner,couple" alt="Memory 3">
-                            <div class="caption">Makan malam romantis</div>
-                        </div>
-                        <div class="memory-card">
-                            <img src="https://source.unsplash.com/random/300x200/?mountain,couple" alt="Memory 4">
-                            <div class="caption">Pendakian bersama</div>
-                        </div>
-                    </div>
+    <section id="services" class="services">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Layanan Kami</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Reguler</h3>
+                    <p>Pengiriman standar, estimasi 3-5 hari. Harga terjangkau.</p>
                 </div>
-
-                <!-- Photos Page -->
-                <div class="page" id="photos">
-                    <h1>Foto Kenangan Kita</h1>
-                    <p>Koleksi foto indah kita bersama</p>
-                    <div class="photo-gallery">
-                        <div class="photo-item">
-                            <img src="https://source.unsplash.com/random/300x300/?couple,love" alt="Photo 1">
-                        </div>
-                        <div class="photo-item">
-                            <img src="https://source.unsplash.com/random/300x300/?couple,kiss" alt="Photo 2">
-                        </div>
-                        <div class="photo-item">
-                            <img src="https://source.unsplash.com/random/300x300/?couple,date" alt="Photo 3">
-                        </div>
-                        <div class="photo-item">
-                            <img src="https://source.unsplash.com/random/300x300/?couple,travel" alt="Photo 4">
-                        </div>
-                        <div class="photo-item">
-                            <img src="https://source.unsplash.com/random/300x300/?couple,anniversary" alt="Photo 5">
-                        </div>
-                        <div class="photo-item">
-                            <img src="https://source.unsplash.com/random/300x300/?couple,celebration" alt="Photo 6">
-                        </div>
-                    </div>
+                <div class="service-card">
+                    <h3>Express</h3>
+                    <p>Pengiriman cepat, estimasi 1-2 hari. Untuk kebutuhan mendesak.</p>
                 </div>
-
-                <!-- Chat Page -->
-                <div class="page" id="chat">
-                    <div class="chat-container">
-                        <div class="chat-header">
-                            <i class="fas fa-user-circle" style="font-size: 2rem;"></i>
-                            <div>
-                                <h2>Pacar Tersayang</h2>
-                                <p style="font-size: 0.8rem;">Online</p>
-                            </div>
-                        </div>
-                        <div class="chat-messages" id="chatMessages">
-                            <div class="message received">
-                                <p>Hai sayang! Aku kangen banget sama kamu ❤️</p>
-                                <div class="message-time">10:00</div>
-                            </div>
-                            <div class="message sent">
-                                <p>Aku juga kangen banget! Udah lama nggak ketemu nih</p>
-                                <div class="message-time">10:01</div>
-                            </div>
-                            <div class="message received">
-                                <p>Inget nggak waktu kita pertama kali ketemu? Waktu itu kamu pakai baju biru</p>
-                                <div class="message-time">10:02</div>
-                            </div>
-                            <div class="message sent">
-                                <p>Inget dong! Kamu waktu itu tersenyum sama aku terus dari situ aku langsung jatuh cinta</p>
-                                <div class="message-time">10:03</div>
-                            </div>
-                            <div class="message received">
-                                <p>Kapan kita ketemu lagi? Aku pengen peluk kamu</p>
-                                <div class="message-time">10:04</div>
-                            </div>
-                            <div class="message sent">
-                                <p>Besok aku jemput kamu jam 5 ya? Kita makan malam di tempat favorit kita</p>
-                                <div class="message-time">10:05</div>
-                            </div>
-                        </div>
-                        <div class="chat-input">
-                            <input type="text" id="messageInput" placeholder="Ketik pesan...">
-                            <div class="chat-actions">
-                                <i class="fas fa-smile" id="emojiBtn"></i>
-                                <i class="fas fa-paperclip" id="attachBtn"></i>
-                                <i class="fas fa-paper-plane" id="sendBtn"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Favorite Chat Page -->
-                <div class="page" id="favoriteChat">
-                    <h1>Pesan Favorit</h1>
-                    <p>Kumpulan pesan-pesan spesial dari kita berdua</p>
-                    <div class="favorite-messages">
-                        <div class="message received">
-                            <p>"Aku bersyukur banget punya kamu di hidupku. Kamu adalah anugerah terindah."</p>
-                            <div class="message-time">15 Mar 2023</div>
-                        </div>
-                        <div class="message sent">
-                            <p>"Setiap hari bersamamu adalah hari yang penuh warna. Aku nggak bisa bayangin hidup tanpa kamu."</p>
-                            <div class="message-time">20 Apr 2023</div>
-                        </div>
-                        <div class="message received">
-                            <p>"Kamu tahu nggak? Senyumanmu itu bisa bikin hariku jadi lebih cerah."</p>
-                            <div class="message-time">5 Mei 2023</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Music Page -->
-                <div class="page" id="music">
-                    <h1>Lagu Favorit Kita</h1>
-                    <p>Koleksi lagu yang punya cerita khusus buat kita berdua</p>
-                    <div class="song-list">
-                        <div class="song-item">
-                            <div class="play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                            <div class="song-info">
-                                <h3>Perfect - Ed Sheeran</h3>
-                                <p>Lagu yang selalu kita dengar saat jalan-jalan malam</p>
-                            </div>
-                        </div>
-                        <div class="song-item">
-                            <div class="play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                            <div class="song-info">
-                                <h3>All of Me - John Legend</h3>
-                                <p>Lagu yang kamu nyanyikan khusus untuk aku</p>
-                            </div>
-                        </div>
-                        <div class="song-item">
-                            <div class="play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                            <div class="song-info">
-                                <h3>I Will Always Love You - Whitney Houston</h3>
-                                <p>Lagu yang membuat kita berdua menangis</p>
-                            </div>
-                        </div>
-                        <div class="song-item">
-                            <div class="play-btn">
-                                <i class="fas fa-play"></i>
-                            </div>
-                            <div class="song-info">
-                                <h3>Can't Help Falling in Love - Elvis Presley</h3>
-                                <p>Lagu pernikahan impian kita</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="service-card">
+                    <h3>Same Day</h3>
+                    <p>Pengiriman hari yang sama di kota besar. Ideal untuk e-commerce.</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <section id="calculator" class="calculator">
+        <div class="container">
+            <h2 style="margin-bottom: 2rem;">Kalkulator Ongkir</h2>
+            <form id="ongkirForm">
+                <label for="berat">Berat Barang (kg):</label>
+                <input type="number" id="berat" min="0.1" step="0.1" required>
+                
+                <label for="jarak">Jarak (km):</label>
+                <input type="number" id="jarak" min="1" required>
+                
+                <label for="layanan">Jenis Layanan:</label>
+                <select id="layanan" required>
+                    <option value="reguler">Reguler (x1)</option>
+                    <option value="express">Express (x1.5)</option>
+                    <option value="sameday">Same Day (x2)</option>
+                </select>
+                
+                <button type="submit">Hitung Ongkir</button>
+            </form>
+            <div id="result"></div>
+        </div>
+    </section>
+
+    <!-- Baru: Section Tracking Resi -->
+    <section id="tracking" class="tracking">
+        <div class="container">
+            <h2 style="margin-bottom: 2rem;">Tracking Resi</h2>
+            <p style="text-align: center; margin-bottom: 1rem;">Masukkan nomor resi Anda untuk melacak status pengiriman.</p>
+            <form id="trackingForm">
+                <label for="resi">Nomor Resi:</label>
+                <input type="text" id="resi" placeholder="Contoh: RESI123456789" required pattern="[A-Z0-9]{10,}" title="Nomor resi minimal 10 karakter alfanumerik">
+                <button type="submit">Lacak Resi</button>
+            </form>
+            <div id="trackingResult"></div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Hubungi Kami</h2>
+            <form id="contactForm">
+                <input type="text" placeholder="Nama Lengkap" required>
+                <input type="email" placeholder="Email" required>
+                <textarea placeholder="Pesan Anda" rows="5" required></textarea>
+                <button type="submit">Kirim Pesan</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Pengiriman Cepat. Semua hak dilindungi.</p>
+        </div>
+    </footer>
 
     <script>
-        // Login Functionality
-        document.getElementById('loginBtn').addEventListener('click', function() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (username === 'pacar' && password === 'cinta') {
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('appContainer').style.display = 'flex';
-            } else {
-                alert('Username atau password salah! Coba username: pacar dan password: cinta');
-            }
-        });
-
-        // Navigation
-        const menuItems = document.querySelectorAll('.sidebar-menu li');
-        const pages = document.querySelectorAll('.page');
-        
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const targetPage = this.getAttribute('data-page');
-                
-                // Update active menu item
-                menuItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Show target page
-                pages.forEach(page => {
-                    page.classList.remove('active');
-                    if (page.id === targetPage) {
-                        page.classList.add('active');
-                    }
-                });
-            });
-        });
-
-        // Chat Functionality
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const chatMessages = document.getElementById('chatMessages');
-        
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message) {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message', 'sent');
-                
-                const now = new Date();
-                const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
-                
-                messageElement.innerHTML = `
-                    <p>${message}</p>
-                    <div class="message-time">${timeString}</div>
-                `;
-                
-                chatMessages.appendChild(messageElement);
-                messageInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Simulate reply after a delay
-                setTimeout(() => {
-                    const replies = [
-                        "Aku sayang banget sama kamu!",
-                        "Kapan kita ketemu lagi?",
-                        "Kamu adalah pacar terbaik yang pernah aku punya",
-                        "Inget nggak waktu kita pertama kali jalan?",
-                        "Aku nggak sabar buat ketemu kamu besok!"
-                    ];
-                    
-                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
-                    
-                    const replyElement = document.createElement('div');
-                    replyElement.classList.add('message', 'received');
-                    
-                    const replyTime = new Date();
-                    const replyTimeString = `${replyTime.getHours()}:${replyTime.getMinutes().toString().padStart(2, '0')}`;
-                    
-                    replyElement.innerHTML = `
-                        <p>${randomReply}</p>
-                        <div class="message-time">${replyTimeString}</div>
-                    `;
-                    
-                    chatMessages.appendChild(replyElement);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 1000);
-            }
+        // Toggle Theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+            // Update dark classes untuk sections
+            document.querySelectorAll('.services, .service-card, .calculator, .contact, .tracking, .tracking-item').forEach(el => el.classList.toggle('dark'));
         }
-        
-        sendBtn.addEventListener('click', sendMessage);
-        
-        messageInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
+
+        // Kalkulator Ongkir
+        document.getElementById('ongkirForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const berat = parseFloat(document.getElementById('berat').value);
+            const jarak = parseFloat(document.getElementById('jarak').value);
+            const layanan = document.getElementById('layanan').value;
+            
+            if (isNaN(berat) || isNaN(jarak) || berat <= 0 || jarak <= 0) {
+                document.getElementById('result').innerHTML = '<span class="error">Masukkan data yang valid!</span>';
+                return;
             }
+            
+            let multiplier = 1;
+            if (layanan === 'express') multiplier = 1.5;
+            else if (layanan === 'sameday') multiplier = 2;
+            
+            const ongkir = ((berat * 5000) + (jarak * 2000)) * multiplier;
+            document.getElementById('result').innerHTML = `Estimasi Ongkir: Rp ${ongkir.toLocaleString('id-ID')}`;
         });
 
-        // Emoji and Attachment Buttons (Placeholder)
-        document.getElementById('emojiBtn').addEventListener('click', function() {
-            alert('Fitur emoji akan ditambahkan nanti!');
-        });
-        
-        document.getElementById('attachBtn').addEventListener('click', function() {
-            alert('Fitur attachment akan ditambahkan nanti!');
-        });
+        // Tracking Resi - Baru
+        // Data dummy status tracking (di produksi, fetch dari API)
+        const dummyTrackingData = {
+            'RESI123456789': [
+                { status: 'Pesanan Diterima', date: '2025-10-30 10:00', desc: 'Barang telah diterima di gudang pengirim.' },
+                { status: 'Dalam Perjalanan', date: '2025-10-31 14:00', desc: 'Barang sedang dikirim ke tujuan.' },
+                { status: 'Tiba di Tujuan', date: '2025-11-01 09:00', desc: 'Barang telah tiba di kota tujuan.' }
+            ],
+            'RESI987654321': [
+                { status: 'Pesanan Diterima', date: '2025-10-29 08:00', desc: 'Barang telah diterima di gudang pengirim.' },
+                { status: 'Dalam Perjalanan', date: '2025-10-30 12:00', desc: 'Barang sedang dikirim ke tujuan.' },
+                { status: 'Dikirim ke Penerima', date: '2025-11-01 11:00', desc: 'Kurir sedang menuju alamat penerima.' },
+                { status: 'Selesai', date: '2025-11-01 12:00', desc: 'Barang telah diserahkan ke penerima.' }
+            ]
+            // Tambah lebih banyak resi dummy jika perlu
+        };
 
-        // Music Play Functionality
-        const playButtons = document.querySelectorAll('.play-btn');
-        playButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const icon = this.querySelector('i');
-                if (icon.classList.contains('fa-play')) {
-                    icon.classList.remove('fa-play');
-                    icon.classList.add('fa-pause');
-                    // In a real app, you would play the song here
-                } else {
-                    icon.classList.remove('fa-pause');
-                    icon.classList.add('fa-play');
-                    // In a real app, you would pause the song here
-                }
+        document.getElementById('trackingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const resi = document.getElementById('resi').value.toUpperCase().trim();
+            
+            if (!/^[A-Z0-9]{10,}$/.test(resi)) {
+                document.getElementById('trackingResult').innerHTML = '<div class="error">Nomor resi tidak valid! Gunakan minimal 10 karakter alfanumerik.</div>';
+                return;
+            }
+            
+            // Simulasi: Cek data dummy atau generate sederhana
+            let trackingHistory = dummyTrackingData[resi];
+            if (!trackingHistory) {
+                // Generate dummy jika tidak ada
+                const statuses = [
+                    { status: 'Pesanan Diterima', date: '2025-10-30 10:00', desc: 'Barang telah diterima di gudang pengirim.' },
+                    { status: 'Dalam Perjalanan', date: '2025-10-31 14:00', desc: 'Barang sedang dikirim ke tujuan.' },
+                    { status: 'Tiba di Tujuan', date: '2025-11-01 09:00', desc: 'Barang telah tiba di kota tujuan.' }
+                ];
+                // Shuffle berdasarkan hash resi untuk variasi
+                const hash = resi.split('').reduce((a, b) => a + b.charCodeAt(0), 0) % statuses.length;
+                trackingHistory = statuses.slice(0, hash + 1); // Random subset
+            }
+            
+            let resultHTML = `<h3>Status Tracking untuk Resi: ${resi}</h3>`;
+            trackingHistory.forEach(item => {
+                resultHTML += `
+                    <div class="tracking-item">
+                        <div class="tracking-status">${item.status}</div>
+                        <div class="tracking-date">${item.date}</div>
+                        <p>${item.desc}</p>
+                    </div>
+                `;
             });
+            document.getElementById('trackingResult').innerHTML = resultHTML;
+        });
+
+        // Form Kontak (Demo: Log ke console)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            console.log('Pesan Kontak:', Object.fromEntries(formData));
+            alert('Pesan terkirim! (Cek console untuk detail demo)');
+            this.reset();
+        });
+
+        // Smooth Scroll untuk Navigasi
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Update tema saat load (untuk sections)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi tema jika ada localStorage (opsional)
         });
     </script>
 </body>
