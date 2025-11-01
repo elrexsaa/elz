@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengiriman Cepat - Jasa Pengiriman Terpercaya</title>
+    <!-- Midtrans Snap Library (Sandbox untuk Demo) -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" 
+            data-client-key="SB-Mid-client-5P4kQ0nb1u8k6iE4"></script> <!-- Ganti dengan Client Key real Anda -->
+    <!-- QRCode Library untuk Demo QRIS -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <style>
         /* CSS Reset dan Base */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,7 +28,7 @@
         .hero { background: linear-gradient(to right, #007bff, #0056b3); color: white; text-align: center; padding: 150px 0 100px; margin-top: 80px; }
         .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
         .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
-        .btn { display: inline-block; background: #28a745; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .btn { display: inline-block; background: #28a745; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 5px; transition: background 0.3s; cursor: pointer; border: none; }
         .btn:hover { background: #218838; }
         
         /* Sections */
@@ -44,7 +49,7 @@
         #result { margin-top: 1rem; font-size: 1.5rem; font-weight: bold; color: #28a745; }
         #result.error { color: #dc3545; }
         
-        /* Tracking Resi - Baru */
+        /* Tracking Resi */
         .tracking { background: #f8f9fa; text-align: center; }
         .tracking.dark { background: #444; }
         #trackingForm { max-width: 400px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem; }
@@ -55,6 +60,22 @@
         .tracking-date { font-size: 0.9rem; color: #666; }
         .tracking-date.dark { color: #ccc; }
         #trackingResult.error { color: #dc3545; text-align: center; }
+        
+        /* Pembayaran Online */
+        .payment { background: #e9ecef; text-align: center; }
+        .payment.dark { background: #555; }
+        #paymentForm { max-width: 400px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem; }
+        #paymentAmount { font-weight: bold; color: #007bff; font-size: 1.2rem; }
+        #paymentResult { margin-top: 1rem; font-size: 1.2rem; color: #28a745; }
+        #paymentResult.error { color: #dc3545; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 15% auto; padding: 2rem; border-radius: 10px; width: 80%; max-width: 400px; text-align: center; }
+        .modal-content.dark { background: #333; color: #ddd; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: black; }
+        #qrisModal .modal-content { max-width: 500px; }
+        #qrisCanvas { display: block; margin: 1rem auto; border: 1px solid #ccc; }
+        #qrisModal p { margin: 1rem 0; }
         
         /* Kontak */
         .contact { background: white; }
@@ -81,7 +102,8 @@
                 <li><a href="#home">Beranda</a></li>
                 <li><a href="#services">Layanan</a></li>
                 <li><a href="#calculator">Kalkulator Ongkir</a></li>
-                <li><a href="#tracking">Tracking Resi</a></li> <!-- Baru: Link Tracking -->
+                <li><a href="#tracking">Tracking Resi</a></li>
+                <li><a href="#payment">Pembayaran</a></li>
                 <li><a href="#contact">Kontak</a></li>
             </ul>
             <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
@@ -139,7 +161,6 @@
         </div>
     </section>
 
-    <!-- Baru: Section Tracking Resi -->
     <section id="tracking" class="tracking">
         <div class="container">
             <h2 style="margin-bottom: 2rem;">Tracking Resi</h2>
@@ -152,6 +173,59 @@
             <div id="trackingResult"></div>
         </div>
     </section>
+
+    <section id="payment" class="payment">
+        <div class="container">
+            <h2 style="margin-bottom: 2rem;">Pembayaran Online</h2>
+            <p style="text-align: center; margin-bottom: 1rem;">Lengkapi data pembayaran untuk ongkir. Dukung Midtrans & QRIS.</p>
+            <form id="paymentForm">
+                <label for="nama">Nama Lengkap:</label>
+                <input type="text" id="nama" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                
+                <label for="phone">Nomor HP:</label>
+                <input type="tel" id="phone" required>
+                
+                <label for="metode">Metode Pembayaran:</label>
+                <select id="metode" required>
+                    <option value="snap">Kartu/Transfer/E-Wallet</option>
+                    <option value="qris">QRIS (GoPay/ShopeePay)</option>
+                </select>
+                
+                <label>Estimasi Ongkir (Rp):</label>
+                <div id="paymentAmount">0</div>
+                
+                <button type="submit" class="btn">Bayar Sekarang</button>
+            </form>
+            <div id="paymentResult"></div>
+        </div>
+    </section>
+
+    <!-- Modal Konfirmasi Umum -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('confirmModal')">&times;</span>
+            <h3>Konfirmasi Pembayaran</h3>
+            <p id="modalText">Apakah Anda yakin untuk membayar?</p>
+            <button class="btn" onclick="proceedPayment()">Ya, Lanjutkan</button>
+            <button onclick="closeModal('confirmModal')">Batal</button>
+        </div>
+    </div>
+
+    <!-- Modal QRIS Khusus -->
+    <div id="qrisModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('qrisModal')">&times;</span>
+            <h3>Scan QRIS untuk Bayar</h3>
+            <p>Buka app GoPay/ShopeePay, scan QR di bawah, dan bayar Rp <span id="qrisAmount"></span>.</p>
+            <canvas id="qrisCanvas"></canvas>
+            <p id="qrisOrder">Order ID: <span id="qrisOrderId"></span></p>
+            <button class="btn" onclick="simulateQrisPayment()">Saya Sudah Bayar (Simulasi)</button>
+            <button onclick="closeModal('qrisModal')">Batal</button>
+        </div>
+    </div>
 
     <section id="contact" class="contact">
         <div class="container">
@@ -172,13 +246,20 @@
     </footer>
 
     <script>
+        // Variabel Global untuk Ongkir
+        window.ongkirAmount = 0;
+
+        // Fungsi Tutup Modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
         // Toggle Theme
         function toggleTheme() {
             document.body.classList.toggle('dark');
             const btn = document.querySelector('.theme-toggle');
             btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-            // Update dark classes untuk sections
-            document.querySelectorAll('.services, .service-card, .calculator, .contact, .tracking, .tracking-item').forEach(el => el.classList.toggle('dark'));
+            document.querySelectorAll('.services, .service-card, .calculator, .contact, .tracking, .tracking-item, .payment, .modal-content').forEach(el => el.classList.toggle('dark'));
         }
 
         // Kalkulator Ongkir
@@ -198,11 +279,12 @@
             else if (layanan === 'sameday') multiplier = 2;
             
             const ongkir = ((berat * 5000) + (jarak * 2000)) * multiplier;
+            window.ongkirAmount = ongkir;
             document.getElementById('result').innerHTML = `Estimasi Ongkir: Rp ${ongkir.toLocaleString('id-ID')}`;
+            document.getElementById('paymentAmount').textContent = ongkir.toLocaleString('id-ID');
         });
 
-        // Tracking Resi - Baru
-        // Data dummy status tracking (di produksi, fetch dari API)
+        // Tracking Resi (sama seperti sebelumnya)
         const dummyTrackingData = {
             'RESI123456789': [
                 { status: 'Pesanan Diterima', date: '2025-10-30 10:00', desc: 'Barang telah diterima di gudang pengirim.' },
@@ -215,7 +297,6 @@
                 { status: 'Dikirim ke Penerima', date: '2025-11-01 11:00', desc: 'Kurir sedang menuju alamat penerima.' },
                 { status: 'Selesai', date: '2025-11-01 12:00', desc: 'Barang telah diserahkan ke penerima.' }
             ]
-            // Tambah lebih banyak resi dummy jika perlu
         };
 
         document.getElementById('trackingForm').addEventListener('submit', function(e) {
@@ -227,18 +308,15 @@
                 return;
             }
             
-            // Simulasi: Cek data dummy atau generate sederhana
             let trackingHistory = dummyTrackingData[resi];
             if (!trackingHistory) {
-                // Generate dummy jika tidak ada
                 const statuses = [
                     { status: 'Pesanan Diterima', date: '2025-10-30 10:00', desc: 'Barang telah diterima di gudang pengirim.' },
                     { status: 'Dalam Perjalanan', date: '2025-10-31 14:00', desc: 'Barang sedang dikirim ke tujuan.' },
                     { status: 'Tiba di Tujuan', date: '2025-11-01 09:00', desc: 'Barang telah tiba di kota tujuan.' }
                 ];
-                // Shuffle berdasarkan hash resi untuk variasi
                 const hash = resi.split('').reduce((a, b) => a + b.charCodeAt(0), 0) % statuses.length;
-                trackingHistory = statuses.slice(0, hash + 1); // Random subset
+                trackingHistory = statuses.slice(0, hash + 1);
             }
             
             let resultHTML = `<h3>Status Tracking untuk Resi: ${resi}</h3>`;
@@ -254,7 +332,91 @@
             document.getElementById('trackingResult').innerHTML = resultHTML;
         });
 
-        // Form Kontak (Demo: Log ke console)
+        // Pembayaran Online - Update untuk QRIS
+        const demoSnapToken = 'sandbox-12345678-1234-1234-1234-123456789012'; // Placeholder
+
+        function proceedPayment() {
+            const nama = document.getElementById('nama').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const metode = document.getElementById('metode').value;
+            const amount = window.ongkirAmount;
+
+            if (!nama || !email || !phone || amount <= 0) {
+                document.getElementById('paymentResult').innerHTML = '<span class="error">Lengkapi semua data dan hitung ongkir terlebih dahulu!</span>';
+                return;
+            }
+
+            const orderId = 'ORDER-' + Date.now();
+            const payload = {
+                transaction_details: {
+                    order_id: orderId,
+                    gross_amount: amount
+                },
+                customer_details: {
+                    first_name: nama,
+                    email: email,
+                    phone: phone
+                }
+            };
+
+            if (metode === 'qris') {
+                // Payload untuk QRIS (di produksi, POST ke backend dengan payment_type: "qris")
+                payload.payment_type = 'qris';
+                payload.qris = { acquirer: 'gopay' }; // Atau 'airpay_shopee'
+                console.log('Payload QRIS untuk Midtrans:', payload);
+                
+                // Demo: Generate QR lokal
+                document.getElementById('qrisAmount').textContent = amount.toLocaleString('id-ID');
+                document.getElementById('qrisOrderId').textContent = orderId;
+                const qrData = `Bayar Rp ${amount.toLocaleString('id-ID')} ke Pengiriman Cepat via QRIS ${orderId}`;
+                QRCode.toCanvas(document.getElementById('qrisCanvas'), qrData, { width: 200 }, function (error) {
+                    if (error) console.error(error);
+                });
+                document.getElementById('qrisModal').style.display = 'block';
+            } else {
+                // Default Snap untuk metode lain
+                console.log('Payload Snap untuk Midtrans:', payload);
+                if (window.snap) {
+                    window.snap.pay(demoSnapToken, {
+                        onSuccess: function(result) {
+                            document.getElementById('paymentResult').innerHTML = 'Pembayaran berhasil! Resi akan dikirim via email.';
+                            console.log('Payment Success:', result);
+                        },
+                        onPending: function(result) {
+                            document.getElementById('paymentResult').innerHTML = 'Pembayaran pending. Silakan cek status.';
+                            console.log('Payment Pending:', result);
+                        },
+                        onError: function(result) {
+                            document.getElementById('paymentResult').innerHTML = '<span class="error">Pembayaran gagal. Coba lagi.</span>';
+                            console.log('Payment Error:', result);
+                        }
+                    });
+                } else {
+                    alert('Midtrans Snap tidak terload. Cek koneksi atau key.');
+                }
+            }
+
+            closeModal('confirmModal');
+            document.getElementById('paymentForm').reset();
+        }
+
+        // Simulasi Pembayaran QRIS (Demo)
+        function simulateQrisPayment() {
+            document.getElementById('paymentResult').innerHTML = 'Pembayaran QRIS berhasil! Resi akan dikirim via email.';
+            closeModal('qrisModal');
+            console.log('QRIS Payment Simulated Success');
+        }
+
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = window.ongkirAmount;
+            const metode = document.getElementById('metode').value;
+            document.getElementById('modalText').innerHTML = `Yakin bayar Rp ${amount.toLocaleString('id-ID')} via ${metode.toUpperCase()}?`;
+            document.getElementById('confirmModal').style.display = 'block';
+        });
+
+        // Form Kontak
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);
@@ -263,17 +425,12 @@
             this.reset();
         });
 
-        // Smooth Scroll untuk Navigasi
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
-        });
-
-        // Update tema saat load (untuk sections)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi tema jika ada localStorage (opsional)
         });
     </script>
 </body>
