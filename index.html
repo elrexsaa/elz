@@ -771,11 +771,11 @@
             // Simulate register
             alert('Daftar berhasil! Silakan login.');
             // Telegram Bot: Send notification (Real: Fetch to your bot webhook)
-            fetch('https://api.telegram.org/bot<YOUR_BOT_TOKEN>/sendMessage', {
+            fetch('https://api.telegram.org/bot8061829903:AAFEBJQc5Sz8uWA42Naqwk7DNJy1MMO5fbI/sendMessage', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    chat_id: '<YOUR_CHAT_ID>',
+                    chat_id: '7483666804',
                     text: `Member baru: ${document.getElementById('regUser').value} - Email: ${document.getElementById('regEmail').value}`
                 })
             }).catch(err => console.log('Bot error:', err));
