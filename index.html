@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Audio Background -->
@@ -16,43 +16,17 @@
         Browser Anda tidak support audio.
     </audio>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal active">
-        <div class="modal-content">
-            <div class="logo">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7v10l10 5 10-5V7l-10-5zM12 15l-4-2-4-2V8l4 2 4 2v3z" fill="currentColor"/>
-                </svg>
-            </div>
-            <h1>Selamat Datang di PuisiKu</h1>
-            <form id="loginForm" class="login-form">
-                <div class="input-group">
-                    <input type="text" id="username" placeholder=" " required>
-                    <label for="username">Username</label>
-                    <span class="input-icon">👤</span>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="password" placeholder=" " required>
-                    <label for="password">Password</label>
-                    <span class="input-icon">🔒</span>
-                    <button type="button" class="toggle-password" id="togglePassword">👁️</button>
-                </div>
-                <button type="submit" id="loginBtn">
-                    <span class="btn-text">Masuk</span>
-                    <div class="spinner hidden"></div>
-                </button>
-            </form>
-            <p class="demo-note">Demo: username: admin | password: puisi123</p>
-            <div class="error-message hidden" id="errorMsg">Username atau password salah!</div>
-        </div>
-    </div>
+    <!-- Confetti Canvas -->
+    <canvas id="confetti" class="hidden"></canvas>
 
     <!-- Main App -->
-    <div id="app" class="hidden">
+    <div id="app">
         <header>
             <h1>PuisiKu</h1>
             <nav>
                 <button id="addPoemBtn">Tambah Puisi</button>
+                <button id="exportBtn">Export Puisi</button>
+                <button id="importBtn">Import Puisi</button>
                 <button id="logoutBtn">Keluar</button>
             </nav>
         </header>
@@ -63,6 +37,7 @@
             </div>
 
             <div id="poemList" class="poem-grid"></div>
+            <div id="loading" class="loading hidden">Memuat puisi...</div>
 
             <!-- Add Poem Modal -->
             <div id="addModal" class="modal hidden">
@@ -74,6 +49,16 @@
                         <button type="submit">Simpan</button>
                         <button type="button" id="closeAddModal">Batal</button>
                     </form>
+                </div>
+            </div>
+
+            <!-- Import Modal -->
+            <div id="importModal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Import Puisi</h2>
+                    <input type="file" id="importFile" accept=".json" required>
+                    <button id="confirmImport">Import</button>
+                    <button type="button" id="closeImportModal">Batal</button>
                 </div>
             </div>
         </main>
