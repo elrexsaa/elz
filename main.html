@@ -3,92 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - PuisiKu</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <title>Dashboard Puisi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body { transition: background-color 0.3s; }
+        .dark { background-color: #1a202c; color: white; }
+    </style>
 </head>
-<body class="login-body">
-    <!-- Login Modal (full page) -->
-    <div id="loginModal" class="modal active full-modal">
-        <div class="modal-content">
-            <div class="logo">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7v10l10 5 10-5V7l-10-5zM12 15l-4-2-4-2V8l4 2 4 2v3z" fill="currentColor"/>
-                </svg>
-            </div>
-            <h1>Selamat Datang di PuisiKu</h1>
-            <form id="loginForm" class="login-form">
-                <div class="input-group">
-                    <input type="text" id="username" placeholder=" " required>
-                    <label for="username">Username</label>
-                    <span class="input-icon">👤</span>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="password" placeholder=" " required>
-                    <label for="password">Password</label>
-                    <span class="input-icon">🔒</span>
-                    <button type="button" class="toggle-password" id="togglePassword">👁️</button>
-                </div>
-                <button type="submit" id="loginBtn">
-                    <span class="btn-text">Masuk</span>
-                    <div class="spinner hidden"></div>
-                </button>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-white shadow-md p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Dashboard Puisi</h1>
+        <div>
+            <button id="themeToggle" class="mr-4 px-4 py-2 bg-gray-200 rounded">Tema Gelap</button>
+            <button id="logout" class="px-4 py-2 bg-red-500 text-white rounded">Logout</button>
+        </div>
+    </header>
+    <main class="p-6">
+        <div class="mb-6">
+            <input type="text" id="search" placeholder="Cari puisi..." class="w-full px-4 py-2 border rounded-lg">
+        </div>
+        <div class="mb-6">
+            <button id="addPoem" class="px-4 py-2 bg-blue-500 text-white rounded">Tambah Puisi</button>
+        </div>
+        <div id="poemsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Puisi akan dimuat di sini -->
+        </div>
+    </main>
+
+    <!-- Modal untuk Tambah/Edit Puisi -->
+    <div id="poemModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md">
+            <h3 id="modalTitle" class="text-xl font-bold mb-4">Tambah Puisi</h3>
+            <form id="poemForm">
+                <input type="text" id="poemTitle" placeholder="Judul Puisi" class="w-full mb-4 px-4 py-2 border rounded" required>
+                <textarea id="poemContent" placeholder="Isi Puisi" class="w-full mb-4 px-4 py-2 border rounded" rows="6" required></textarea>
+                <select id="poemCategory" class="w-full mb-4 px-4 py-2 border rounded">
+                    <option value="Romantis">Romantis</option>
+                    <option value="Inspirasi">Inspirasi</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded">Simpan</button>
+                <button type="button" id="closeModal" class="w-full mt-2 bg-gray-500 text-white py-2 rounded">Batal</button>
             </form>
-            <p class="demo-note">Demo: username: admin | password: puisi123</p>
-            <div class="error-message hidden" id="errorMsg">Username atau password salah!</div>
         </div>
     </div>
 
-    <script>
-        // Login logic (inline)
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginModal = document.getElementById('loginModal');
-            const loginForm = document.getElementById('loginForm');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const togglePassword = document.getElementById('togglePassword');
-            const loginBtn = document.getElementById('loginBtn');
-            const errorMsg = document.getElementById('errorMsg');
-            const btnText = document.querySelector('.btn-text');
-            const spinner = document.querySelector('.spinner');
-
-            // Floating labels & toggle
-            [usernameInput, passwordInput].forEach(input => {
-                input.addEventListener('input', () => input.value ? input.classList.add('valid') : input.classList.remove('valid'));
-            });
-            togglePassword.addEventListener('click', () => {
-                passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-                togglePassword.textContent = passwordInput.type === 'password' ? '👁️' : '🙈';
-            });
-            [usernameInput, passwordInput].forEach(input => {
-                input.addEventListener('blur', () => !input.value ? input.style.borderColor = '#f87171' : input.style.borderColor = 'var(--border)');
-                input.addEventListener('focus', () => input.style.borderColor = 'var(--accent)');
-            });
-
-            // Submit
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = usernameInput.value;
-                const password = passwordInput.value;
-                errorMsg.classList.add('hidden');
-                loginBtn.disabled = true;
-                btnText.style.opacity = '0';
-                spinner.classList.remove('hidden');
-                setTimeout(() => {
-                    if (username === 'admin' && password === 'puisi123') {
-                        localStorage.setItem('loggedIn', 'true');
-                        window.location.href = 'index.html';
-                    } else {
-                        errorMsg.classList.remove('hidden');
-                        loginBtn.disabled = false;
-                        btnText.style.opacity = '1';
-                        spinner.classList.add('hidden');
-                    }
-                }, 1500);
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
