@@ -3,71 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PuisiKu - Galeri Puisi Pribadi</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <title>Login - Website Puisi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
 </head>
-<body>
-    <!-- Audio Background -->
-    <audio id="bgAudio" loop>
-        <source src="assets/ambient-poetry.mp3" type="audio/mpeg">
-        Browser Anda tidak support audio.
-    </audio>
-
-    <!-- Confetti Canvas -->
-    <canvas id="confetti" class="hidden"></canvas>
-
-    <!-- Main App -->
-    <div id="app">
-        <header>
-            <h1>PuisiKu</h1>
-            <nav>
-                <button id="addPoemBtn">Tambah Puisi</button>
-                <button id="exportBtn">Export Puisi</button>
-                <button id="importBtn">Import Puisi</button>
-                <button id="logoutBtn">Keluar</button>
-            </nav>
-        </header>
-
-        <main>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Cari puisi...">
+<body class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center mb-6">Login ke Website Puisi</h2>
+        <form id="loginForm">
+            <div class="mb-4">
+                <label class="block text-gray-700">Username</label>
+                <input type="text" id="username" class="w-full px-4 py-2 border rounded-lg" required>
             </div>
-
-            <div id="poemList" class="poem-grid"></div>
-            <div id="loading" class="loading hidden">Memuat puisi...</div>
-
-            <!-- Add Poem Modal -->
-            <div id="addModal" class="modal hidden">
-                <div class="modal-content">
-                    <h2>Tambah Puisi Baru</h2>
-                    <form id="addForm">
-                        <input type="text" id="title" placeholder="Judul" required>
-                        <textarea id="content" placeholder="Isi puisi..." required></textarea>
-                        <button type="submit">Simpan</button>
-                        <button type="button" id="closeAddModal">Batal</button>
-                    </form>
-                </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Password</label>
+                <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg" required>
             </div>
-
-            <!-- Import Modal -->
-            <div id="importModal" class="modal hidden">
-                <div class="modal-content">
-                    <h2>Import Puisi</h2>
-                    <input type="file" id="importFile" accept=".json" required>
-                    <button id="confirmImport">Import</button>
-                    <button type="button" id="closeImportModal">Batal</button>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <p>&copy; 2025 PuisiKu. Dibuat dengan ❤️ untuk penyair.</p>
-        </footer>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Login</button>
+        </form>
+        <p class="text-center mt-4 text-sm text-gray-600">Demo: Username: admin, Password: 123</p>
     </div>
-
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username === 'admin' && password === 'admin') { // Dummy login
+                localStorage.setItem('loggedIn', 'true');
+                window.location.href = 'main.html';
+            } else {
+                alert('Username atau password salah!');
+            }
+        });
+    </script>
 </body>
 </html>
