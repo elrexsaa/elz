@@ -1,0 +1,61 @@
+/* styles.css */
+
+/* Global Styles */
+body {
+    font-family: 'Inter', sans-serif; /* Font modern dan elegan */
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transisi halus untuk tema */
+}
+
+/* Tema Gelap */
+.dark {
+    background-color: #1a202c;
+    color: #e2e8f0;
+}
+
+/* Background Gradient untuk Halaman Login */
+.login-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Styling untuk Modal */
+#poemModal {
+    z-index: 1000;
+}
+
+/* Animasi untuk Elemen Puisi (misalnya, hover effect) */
+.poem-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.poem-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsivitas Tambahan (meskipun Tailwind sudah handle sebagian) */
+@media (max-width: 768px) {
+    .poem-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Styling untuk Button dan Form */
+button {
+    transition: background-color 0.2s ease;
+}
+
+input, textarea, select {
+    transition: border-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #3b82f6; /* Warna fokus biru */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
