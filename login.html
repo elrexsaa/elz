@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PuisiKu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="login-body">
+    <!-- Login Modal (full page) -->
+    <div id="loginModal" class="modal active full-modal">
+        <div class="modal-content">
+            <div class="logo">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7v10l10 5 10-5V7l-10-5zM12 15l-4-2-4-2V8l4 2 4 2v3z" fill="currentColor"/>
+                </svg>
+            </div>
+            <h1>Selamat Datang di PuisiKu</h1>
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder=" " required>
+                    <label for="username">Username</label>
+                    <span class="input-icon">👤</span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                    <span class="input-icon">🔒</span>
+                    <button type="button" class="toggle-password" id="togglePassword">👁️</button>
+                </div>
+                <button type="submit" id="loginBtn">
+                    <span class="btn-text">Masuk</span>
+                    <div class="spinner hidden"></div>
+                </button>
+            </form>
+            <p class="demo-note">Demo: username: admin | password: puisi123</p>
+            <div class="error-message hidden" id="errorMsg">Username atau password salah!</div>
+        </div>
+    </div>
+
+    <script>
+        // Login logic (inline)
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginModal = document.getElementById('loginModal');
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            const btnText = document.querySelector('.btn-text');
+            const spinner = document.querySelector('.spinner');
+
+            // Floating labels & toggle
+            [usernameInput, passwordInput].forEach(input => {
+                input.addEventListener('input', () => input.value ? input.classList.add('valid') : input.classList.remove('valid'));
+            });
+            togglePassword.addEventListener('click', () => {
+                passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+                togglePassword.textContent = passwordInput.type === 'password' ? '👁️' : '🙈';
+            });
+            [usernameInput, passwordInput].forEach(input => {
+                input.addEventListener('blur', () => !input.value ? input.style.borderColor = '#f87171' : input.style.borderColor = 'var(--border)');
+                input.addEventListener('focus', () => input.style.borderColor = 'var(--accent)');
+            });
+
+            // Submit
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = usernameInput.value;
+                const password = passwordInput.value;
+                errorMsg.classList.add('hidden');
+                loginBtn.disabled = true;
+                btnText.style.opacity = '0';
+                spinner.classList.remove('hidden');
+                setTimeout(() => {
+                    if (username === 'admin' && password === 'puisi123') {
+                        localStorage.setItem('loggedIn', 'true');
+                        window.location.href = 'index.html';
+                    } else {
+                        errorMsg.classList.remove('hidden');
+                        loginBtn.disabled = false;
+                        btnText.style.opacity = '1';
+                        spinner.classList.add('hidden');
+                    }
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
