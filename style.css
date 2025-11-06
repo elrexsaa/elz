@@ -387,6 +387,112 @@ footer {
     transition: var(--transition);
 }
 
+.login-body {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a0d2e 100%);
+}
+
+.full-modal {
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+#exportBtn, #importBtn {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+#exportBtn:hover, #importBtn:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+}
+
+/* Import Modal */
+#importModal .modal-content {
+    max-width: 400px;
+}
+
+#importModal input[type="file"] {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px dashed var(--border);
+}
+
+/* Swipe delete (mobile) */
+.poem-card {
+    touch-action: pan-y;
+    position: relative;
+}
+
+.swipe-delete {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    background: #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    color: white;
+    border-radius: 0 20px 20px 0;
+}
+
+.poem-card.swiped .swipe-delete {
+    transform: translateX(0);
+}
+
+/* Responsif enhanced */
+@media (max-width: 768px) {
+    /* ... (sebelumnya) ... */
+    .poem-grid {
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    nav {
+        gap: 0.5rem;
+    }
+
+    nav button {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+
+    #searchInput {
+        max-width: 100%;
+    }
+
+    /* Swipe threshold */
+    .poem-card {
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .poem-card {
+        padding: 1.25rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+}
+
 /* Responsif */
 @media (max-width: 768px) {
     header {
